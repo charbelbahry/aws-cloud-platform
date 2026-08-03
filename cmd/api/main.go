@@ -8,6 +8,7 @@ import (
 
 	"github.com/charbelbahry/aws-cloud-platform/internal/config"
 	"github.com/charbelbahry/aws-cloud-platform/internal/database"
+	"github.com/charbelbahry/aws-cloud-platform/migrations"
 )
 
 func main() {
@@ -29,5 +30,9 @@ func main() {
 		log.Fatalf("Database connection check failed: %v", err)
 	}
 
-	fmt.Println("Successfully connected and pinged PostgreSQL!")
+	if err := db.RunMigrations(ctx, migrations.FS); err != nil {
+		log.Fatalf("Database migration failed: %v", err)
+	}
+
+	fmt.Println("Database connection verified and migrations applied successfully")
 }
