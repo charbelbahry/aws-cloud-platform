@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/charbelbahry/aws-cloud-platform/internal/config"
 	"github.com/charbelbahry/aws-cloud-platform/internal/database"
+	"github.com/charbelbahry/aws-cloud-platform/internal/handlers"
 	"github.com/charbelbahry/aws-cloud-platform/migrations"
 )
 
@@ -34,5 +36,12 @@ func main() {
 		log.Fatalf("Database migration failed: %v", err)
 	}
 
-	fmt.Println("Database connection verified and migrations applied successfully")
+	mux := http.NewServeMux()
+	serviceHandler := handlers.NewServiceHandler(db)
+	serviceHandler.RegisterRoutes(mux)
+
+	fmt.Printf("Starting HTTP server on port %s...\n", cfg.Port)
+	if err := http.ListenAndServe(":"+cfg.Port, mux); err != nil {
+		log.Fatalf("Server failed: %v", err)
+	}
 }
