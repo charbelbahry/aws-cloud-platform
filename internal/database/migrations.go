@@ -14,7 +14,7 @@ func (db *DB) RunMigrations(ctx context.Context, migrationFS embed.FS) error {
 	applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
 	);`
 
-	if _, err := db.ExecContext(ctx, createTableSQL); err != nil {
+	if _, err := db.DB.ExecContext(ctx, createTableSQL); err != nil {
 		return fmt.Errorf("creating schema_migrations table: %w", err)
 	}
 
@@ -34,7 +34,7 @@ func (db *DB) RunMigrations(ctx context.Context, migrationFS embed.FS) error {
 	for _, file := range files {
 		var exists bool
 		checkSQL := `SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE version = $1);`
-		if err := db.QueryRowContext(ctx, checkSQL, file).Scan(&exists); err != nil {
+		if err := db.DB.QueryRowContext(ctx, checkSQL, file).Scan(&exists); err != nil {
 			return fmt.Errorf("checking migration status for %s: %w", file, err)
 		}
 
@@ -47,7 +47,7 @@ func (db *DB) RunMigrations(ctx context.Context, migrationFS embed.FS) error {
 			return fmt.Errorf("reading migration file %s: %w", file, err)
 		}
 
-		tx, err := db.BeginTx(ctx, nil)
+		tx, err := db.DB.BeginTx(ctx, nil)
 		if err != nil {
 			return fmt.Errorf("beginning transaction for %s: %w", file, err)
 		}

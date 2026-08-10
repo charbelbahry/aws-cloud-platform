@@ -28,7 +28,7 @@ func New(dsn string) (*DB, error) {
 }
 
 func (db *DB) Ping(ctx context.Context) error {
-	if err := db.PingContext(ctx); err != nil {
+	if err := db.DB.PingContext(ctx); err != nil {
 		return fmt.Errorf("pinging database: %w", err)
 	}
 	return nil

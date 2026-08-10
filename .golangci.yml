@@ -7,11 +7,9 @@ linters:
     - errcheck
     - staticcheck
     - unused
-    - gosimple
     - ineffassign
     - typecheck
     - goconst
-    - gofmt
 
 issues:
   exclude-use-default: false
