@@ -942,7 +942,7 @@ ConfigMaps, Terraform modules, technical documentation.
     CloudWatch Logs. Verify the error metric increments.
   - **Commit:** `infra: configure CloudWatch agent for application log shipping`
 
-- [ ] **Step 7.2: Kubernetes local exploration (kind)**
+- [x] **Step 7.2: Kubernetes local exploration (kind)**
   - **Objective:** Understand Kubernetes fundamentals by deploying the
     same app locally.
   - **Tasks:**
@@ -1012,9 +1012,9 @@ ConfigMaps, Terraform modules, technical documentation.
 
 - [x] Application logs appear in CloudWatch Logs
 - [x] ERROR-level logs trigger a metric filter and alarm
-- [ ] kind cluster runs the app with 2+ replicas
-- [ ] `kubectl get pods` shows running pods
-- [ ] `kubectl scale` works and new pods start
+- [x] kind cluster runs the app with 2+ replicas
+- [x] `kubectl get pods` shows running pods
+- [x] `kubectl scale` works and new pods start
 - [ ] Terraform is refactored into modules with zero drift
 - [ ] README is comprehensive with architecture diagram
 - [ ] Architecture document explains design decisions and trade-offs
