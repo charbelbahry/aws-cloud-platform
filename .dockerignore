@@ -1,0 +1,9 @@
+.git
+bin/
+terraform/
+docs/
+k8s/
+*.md
+.env
+.env.example
+docker-compose.yml

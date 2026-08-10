@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+# Update packages and install Docker & AWS CLI
+dnf update -y
+dnf install -y docker awscli
+systemctl enable --now docker
+
+# Wait until docker daemon is active and responsive
+until docker info >/dev/null 2>&1; do
+  echo "Waiting for Docker daemon..."
+  sleep 1
+done
+
+usermod -aG docker ec2-user
+
+# Extract ECR registry domain from repository URL
+ECR_DOMAIN=$(echo "${ecr_url}" | cut -d'/' -f1)
+
+# Authenticate Docker with Amazon ECR using attached IAM Instance Profile
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "$ECR_DOMAIN"
+
+# Pull and launch the Go API container connected to RDS PostgreSQL over SSL
+docker run -d \
+  --name api \
+  --restart always \
+  -p 8080:8080 \
+  -e PORT="8080" \
+  -e DATABASE_URL="postgres://${db_user}:${db_password}@${rds_endpoint}/${db_name}?sslmode=require" \
+  -e LOG_LEVEL="info" \
+  ${ecr_url}:latest
+
+echo "Container deployed and running!"
