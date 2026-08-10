@@ -4,6 +4,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "aws_profile" {
+  description = "Optional AWS CLI profile name"
+  type        = string
+  default     = null
+}
+
 variable "project_name" {
   description = "Project name tag"
   type        = string
