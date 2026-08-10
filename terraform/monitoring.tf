@@ -8,6 +8,37 @@ resource "aws_cloudwatch_log_group" "app_logs" {
   }
 }
 
+# Metric Filter to parse ERROR level logs from Go slog JSON output
+resource "aws_cloudwatch_log_metric_filter" "app_errors" {
+  name           = "${var.project_name}-app-errors"
+  pattern        = "{ $.level = \"ERROR\" }"
+  log_group_name = aws_cloudwatch_log_group.app_logs.name
+
+  metric_transformation {
+    name      = "AppErrorCount"
+    namespace = "AWSCloudPlatform/Application"
+    value     = "1"
+  }
+}
+
+# CloudWatch Alarm for Go Application Errors
+resource "aws_cloudwatch_metric_alarm" "app_errors" {
+  alarm_name          = "${var.project_name}-app-error-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  metric_name         = aws_cloudwatch_log_metric_filter.app_errors.metric_transformation[0].name
+  namespace           = aws_cloudwatch_log_metric_filter.app_errors.metric_transformation[0].namespace
+  period              = 300
+  statistic           = "Sum"
+  threshold           = 1
+  alarm_description   = "Alarm when Go application logs 1 or more ERROR level logs"
+  treat_missing_data  = "notBreaching"
+
+  tags = {
+    Name = "${var.project_name}-app-error-alarm"
+  }
+}
+
 # Metric Alarm: High CPU Utilization (> 80% for 5 minutes)
 resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   alarm_name          = "${var.project_name}-high-cpu"

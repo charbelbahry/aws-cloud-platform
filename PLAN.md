@@ -926,7 +926,7 @@ ConfigMaps, Terraform modules, technical documentation.
 
 ### Steps
 
-- [ ] **Step 7.1: Centralized logging to CloudWatch**
+- [x] **Step 7.1: Centralized logging to CloudWatch**
   - **Objective:** Ship application logs to CloudWatch for centralized
     monitoring.
   - **Tasks:**
@@ -1010,8 +1010,8 @@ ConfigMaps, Terraform modules, technical documentation.
 
 ### Phase 7 Completion Criteria
 
-- [ ] Application logs appear in CloudWatch Logs
-- [ ] ERROR-level logs trigger a metric filter and alarm
+- [x] Application logs appear in CloudWatch Logs
+- [x] ERROR-level logs trigger a metric filter and alarm
 - [ ] kind cluster runs the app with 2+ replicas
 - [ ] `kubectl get pods` shows running pods
 - [ ] `kubectl scale` works and new pods start

@@ -1,33 +1,39 @@
 #!/bin/bash
 set -e
 
-# Update packages and install Docker & AWS CLI
+# Update packages and install Docker
 dnf update -y
-dnf install -y docker awscli
-systemctl enable --now docker
+dnf install -y docker
 
-# Wait until docker daemon is active and responsive
+# Start and enable Docker service
+systemctl enable --now docker
+usermod -aG docker ec2-user
+
+# Wait for Docker daemon to initialize
 until docker info >/dev/null 2>&1; do
   echo "Waiting for Docker daemon..."
   sleep 1
 done
 
-usermod -aG docker ec2-user
-
-# Extract ECR registry domain from repository URL
+# Authenticate Docker to Amazon ECR
 ECR_DOMAIN=$(echo "${ecr_url}" | cut -d'/' -f1)
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_DOMAIN
 
-# Authenticate Docker with Amazon ECR using attached IAM Instance Profile
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "$ECR_DOMAIN"
+# Pull and run application container with awslogs driver streaming to CloudWatch
+LATEST_IMAGE="${ecr_url}:latest"
+docker pull $LATEST_IMAGE
+docker stop api || true
+docker rm api || true
 
-# Pull and launch the Go API container connected to RDS PostgreSQL over SSL
 docker run -d \
   --name api \
   --restart always \
   -p 8080:8080 \
-  -e PORT="8080" \
+  --log-driver=awslogs \
+  --log-opt awslogs-region=us-east-1 \
+  --log-opt awslogs-group=/aws/ec2/aws-cloud-platform \
+  --log-opt awslogs-stream=api-container \
+  -e PORT=8080 \
   -e DATABASE_URL="postgres://${db_user}:${db_password}@${rds_endpoint}/${db_name}?sslmode=require" \
-  -e LOG_LEVEL="info" \
-  ${ecr_url}:latest
-
-echo "Container deployed and running!"
+  -e LOG_LEVEL=info \
+  $LATEST_IMAGE
