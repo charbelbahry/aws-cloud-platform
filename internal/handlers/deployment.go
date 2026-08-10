@@ -105,7 +105,7 @@ func (h *DeploymentHandler) List(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, "failed deployments")
 		return
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	deployments := make([]models.Deployment, 0)
 	for rows.Next() {

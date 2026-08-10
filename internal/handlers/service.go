@@ -71,7 +71,7 @@ func (h *ServiceHandler) List(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, "failed to fetch services")
 		return
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	services := make([]models.Service, 0)
 	for rows.Next() {
