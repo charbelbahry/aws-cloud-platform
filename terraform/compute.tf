@@ -14,10 +14,16 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
+# Dynamic RSA key pair generator fallback for CI environments
+resource "tls_private_key" "ec2_key" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
 # Key Pair for SSH access
 resource "aws_key_pair" "deployer" {
   key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = var.ssh_public_key != "" ? var.ssh_public_key : tls_private_key.ec2_key.public_key_openssh
 }
 
 # EC2 Instance (Free Tier Eligible)
