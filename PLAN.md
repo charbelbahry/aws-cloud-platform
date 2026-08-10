@@ -135,17 +135,17 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
 
 ### Prerequisites
 
-- [ ] Install Go 1.26+ (verify with `go version`)
-- [ ] Install golangci-lint (verify with `golangci-lint --version`)
-- [ ] Install Docker Desktop (verify with `docker --version` and
+- [x] Install Go 1.26+ (verify with `go version`)
+- [x] Install golangci-lint (verify with `golangci-lint --version`)
+- [x] Install Docker Desktop (verify with `docker --version` and
       `docker compose version`)
-- [ ] Create GitHub repository: `aws-cloud-platform` (public)
-- [ ] Clone locally: `git clone git@github.com:charbelbahry/aws-cloud-platform.git`
-- [ ] Create and checkout branch: `git checkout -b phase-1-go-api`
+- [x] Create GitHub repository: `aws-cloud-platform` (public)
+- [x] Clone locally: `git clone git@github.com:charbelbahry/aws-cloud-platform.git`
+- [x] Create and checkout branch: `git checkout -b phase-1-go-api`
 
 ### Steps
 
-- [ ] **Step 1.1: Project initialization**
+- [x] **Step 1.1: Project initialization**
   - **Objective:** Initialize the Go module, create the directory structure,
     and set up developer tooling.
   - **Tasks:**
@@ -163,7 +163,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     message. Directory structure matches the plan.
   - **Commit:** `feat: initialize Go project structure and developer tooling`
 
-- [ ] **Step 1.2: Configuration loading**
+- [x] **Step 1.2: Configuration loading**
   - **Objective:** Load application configuration from environment variables
     with sensible defaults and validation.
   - **Tasks:**
@@ -179,7 +179,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     is missing instead of defaulting to an empty string?"
   - **Commit:** `feat: add configuration loading from environment variables`
 
-- [ ] **Step 1.3: Database connection pool**
+- [x] **Step 1.3: Database connection pool**
   - **Objective:** Create a PostgreSQL connection pool with health checking
     and graceful cleanup.
   - **Tasks:**
@@ -198,7 +198,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     the database is reachable?"
   - **Commit:** `feat: add PostgreSQL connection pool with health check`
 
-- [ ] **Step 1.4: Database migrations**
+- [x] **Step 1.4: Database migrations**
   - **Objective:** Create SQL migration files and an embedded migration runner
     that applies them on startup.
   - **Tasks:**
@@ -218,7 +218,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     binary using `//go:embed` instead of reading them from disk at runtime?"
   - **Commit:** `feat: add embedded SQL migration runner`
 
-- [ ] **Step 1.5: Models and validation**
+- [x] **Step 1.5: Models and validation**
   - **Objective:** Define data structures for services and deployments with
     JSON serialization and input validation.
   - **Tasks:**
@@ -236,7 +236,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     What would change if we used a value receiver?"
   - **Commit:** `feat: add Service and Deployment models with validation`
 
-- [ ] **Step 1.6: Services CRUD handlers**
+- [x] **Step 1.6: Services CRUD handlers**
   - **Objective:** Implement HTTP handlers for all service endpoints using
     only the standard library.
   - **Tasks:**
@@ -259,7 +259,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     `w.WriteHeader(statusCode)`? What happens if we reverse the order?"
   - **Commit:** `feat: add services CRUD HTTP handlers`
 
-- [ ] **Step 1.7: Deployments handlers**
+- [x] **Step 1.7: Deployments handlers**
   - **Objective:** Implement HTTP handlers for deployment records nested
     under services.
   - **Tasks:**
@@ -277,7 +277,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     KEY constraint? Isn't the constraint enough?"
   - **Commit:** `feat: add deployments HTTP handlers`
 
-- [ ] **Step 1.8: Health and metrics endpoints**
+- [x] **Step 1.8: Health and metrics endpoints**
   - **Objective:** Add operational endpoints for liveness, readiness, and
     basic application metrics.
   - **Tasks:**
@@ -296,7 +296,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     alive but not ready."
   - **Commit:** `feat: add health, readiness, and metrics endpoints`
 
-- [ ] **Step 1.9: Middleware**
+- [x] **Step 1.9: Middleware**
   - **Objective:** Add request logging and panic recovery as composable
     HTTP middleware.
   - **Tasks:**
@@ -317,7 +317,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     middleware take an `http.Handler` and return an `http.Handler`?"
   - **Commit:** `feat: add request logging and panic recovery middleware`
 
-- [ ] **Step 1.10: Main entry point and graceful shutdown**
+- [x] **Step 1.10: Main entry point and graceful shutdown**
   - **Objective:** Wire all components together and implement graceful
     shutdown on SIGINT/SIGTERM.
   - **Tasks:**
@@ -341,7 +341,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     longer than the 10-second shutdown timeout?"
   - **Commit:** `feat: add main entry point with graceful shutdown`
 
-- [ ] **Step 1.11: Tests**
+- [x] **Step 1.11: Tests**
   - **Objective:** Write table-driven tests for all handlers.
   - **Tasks:**
     - Create `internal/handlers/services_test.go`
@@ -358,7 +358,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
   - **Validation:** `go test -v -race -cover ./...` passes with 0 failures.
   - **Commit:** `test: add table-driven tests for handlers`
 
-- [ ] **Step 1.12: Local PostgreSQL with docker compose**
+- [x] **Step 1.12: Local PostgreSQL with docker compose**
   - **Objective:** Run the full stack locally with docker compose.
   - **Tasks:**
     - Create `docker-compose.yml` with PostgreSQL 16 service
@@ -379,13 +379,13 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
 
 ### Phase 1 Completion Criteria
 
-- [ ] `make run` starts the API on localhost:8080
-- [ ] All CRUD endpoints work (verified with curl)
-- [ ] `make test` passes with 0 failures and race detector enabled
-- [ ] `make lint` passes with 0 warnings
-- [ ] Graceful shutdown works (Ctrl+C exits cleanly with log message)
-- [ ] All code committed on branch `phase-1-go-api`
-- [ ] Branch merged to main
+- [x] `make run` starts the API on localhost:8080
+- [x] All CRUD endpoints work (verified with curl)
+- [x] `make test` passes with 0 failures and race detector enabled
+- [x] `make lint` passes with 0 warnings
+- [x] Graceful shutdown works (Ctrl+C exits cleanly with log message)
+- [x] All code committed on branch `phase-1-go-api`
+- [x] Branch merged to main
 
 ---
 
@@ -398,7 +398,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
 
 ### Steps
 
-- [ ] **Step 2.1: Multi-stage Dockerfile**
+- [x] **Step 2.1: Multi-stage Dockerfile**
   - **Objective:** Create a production Dockerfile that produces a minimal,
     secure container image.
   - **Tasks:**
@@ -420,7 +420,7 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
     the builder stage, and why doesn't it end up in the final image?"
   - **Commit:** `feat: add multi-stage Dockerfile with non-root user`
 
-- [ ] **Step 2.2: Update docker-compose for full stack**
+- [x] **Step 2.2: Update docker-compose for full stack**
   - **Objective:** Run both the Go app and PostgreSQL as containers.
   - **Tasks:**
     - Update `docker-compose.yml` to build the Go app from the Dockerfile
@@ -441,11 +441,11 @@ methods, interfaces, error handling, goroutines, graceful shutdown, embed.
 
 ### Phase 2 Completion Criteria
 
-- [ ] `docker compose up --build` starts the full stack
-- [ ] Final image is under 30MB
-- [ ] Container runs as non-root
-- [ ] HEALTHCHECK passes
-- [ ] All committed on branch `phase-2-docker`, merged to main
+- [x] `docker compose up --build` starts the full stack
+- [x] Final image is under 30MB
+- [x] Container runs as non-root
+- [x] HEALTHCHECK passes
+- [x] All committed on branch `phase-2-docker`, merged to main
 
 ---
 
@@ -458,7 +458,7 @@ caching, concurrency.
 
 ### Steps
 
-- [ ] **Step 3.1: golangci-lint configuration**
+- [x] **Step 3.1: golangci-lint configuration**
   - **Objective:** Configure the Go linter for the project.
   - **Tasks:**
     - Create `.golangci.yml`
@@ -472,7 +472,7 @@ caching, concurrency.
   - **Validation:** `golangci-lint run` passes with 0 warnings.
   - **Commit:** `ci: add golangci-lint configuration`
 
-- [ ] **Step 3.2: CI workflow**
+- [x] **Step 3.2: CI workflow**
   - **Objective:** Create a GitHub Actions workflow that runs on every PR.
   - **Tasks:**
     - Create `.github/workflows/ci.yml`
@@ -496,11 +496,11 @@ caching, concurrency.
 
 ### Phase 3 Completion Criteria
 
-- [ ] PR triggers CI pipeline automatically
-- [ ] All three jobs (lint, test, build) pass
-- [ ] Race detector is enabled in test job
-- [ ] PostgreSQL service container is used for tests
-- [ ] All committed on branch `phase-3-ci`, merged to main
+- [x] PR triggers CI pipeline automatically
+- [x] All three jobs (lint, test, build) pass
+- [x] Race detector is enabled in test job
+- [x] PostgreSQL service container is used for tests
+- [x] All committed on branch `phase-3-ci`, merged to main
 
 ---
 
@@ -520,7 +520,7 @@ will recreate everything as code. No code commits for this phase.
 
 ### Steps
 
-- [ ] **Step 4.1: AWS account setup**
+- [x] **Step 4.1: AWS account setup**
   - **Objective:** Set up a secure AWS account with billing protection.
   - **Tasks:**
     - Create AWS free tier account
@@ -535,7 +535,7 @@ will recreate everything as code. No code commits for this phase.
     account for daily work? What could happen if root credentials are
     compromised?"
 
-- [ ] **Step 4.2: VPC and networking**
+- [x] **Step 4.2: VPC and networking**
   - **Objective:** Build a private network in AWS manually optimized for the AWS Free Tier.
   - **Tasks:**
     - Create VPC: `10.0.0.0/16`, name: `clouddev-vpc`
@@ -553,7 +553,7 @@ will recreate everything as code. No code commits for this phase.
     while the RDS instance in the private subnet remains isolated? Why is a NAT
     Gateway unnecessary for RDS in standard usage, saving ~$32/month?"
 
-- [ ] **Step 4.3: Security groups**
+- [x] **Step 4.3: Security groups**
   - **Objective:** Create firewall rules for the application and database.
   - **Tasks:**
     - Create `app-sg`: inbound HTTP (80) from `0.0.0.0/0`, inbound
@@ -567,7 +567,7 @@ will recreate everything as code. No code commits for this phase.
     inbound rule to allow port 5432 from `0.0.0.0/0` instead of from
     `app-sg`? What attack does the SG-to-SG rule prevent?"
 
-- [ ] **Step 4.4: RDS PostgreSQL**
+- [x] **Step 4.4: RDS PostgreSQL**
   - **Objective:** Create a managed PostgreSQL database in the private subnet.
   - **Tasks:**
     - Create RDS PostgreSQL instance: `db.t3.micro`, PostgreSQL 16,
@@ -584,7 +584,7 @@ will recreate everything as code. No code commits for this phase.
     public access disabled? How does the application reach it if it has
     no public IP address?"
 
-- [ ] **Step 4.5: EC2 instance**
+- [x] **Step 4.5: EC2 instance**
   - **Objective:** Launch a virtual machine and deploy a container manually.
   - **Tasks:**
     - Launch EC2: `t3.micro`, Amazon Linux 2024, public subnet, `app-sg`
@@ -600,7 +600,7 @@ will recreate everything as code. No code commits for this phase.
     pair and a security group? You have both. Why do you need both, and
     what does each one protect against?"
 
-- [ ] **Step 4.6: ECR repository**
+- [x] **Step 4.6: ECR repository**
   - **Objective:** Push and pull Docker images through AWS's container registry.
   - **Tasks:**
     - Create ECR repository: `aws-cloud-platform`
@@ -614,7 +614,7 @@ will recreate everything as code. No code commits for this phase.
   - **Understanding checkpoint:** "How is ECR different from GHCR? If your
     infrastructure is on AWS, why might you choose ECR over GHCR?"
 
-- [ ] **Step 4.7: IAM roles and policies**
+- [x] **Step 4.7: IAM roles and policies**
   - **Objective:** Give EC2 permissions without static credentials.
   - **Tasks:**
     - Create IAM role with trust policy for EC2
@@ -631,7 +631,7 @@ will recreate everything as code. No code commits for this phase.
     safer than putting AWS access keys in a `.env` file on the server?
     What happens if the server is compromised in each case?"
 
-- [ ] **Step 4.8: CloudWatch basics**
+- [x] **Step 4.8: CloudWatch basics**
   - **Objective:** Understand AWS monitoring and alerting.
   - **Tasks:**
     - View EC2 metrics in CloudWatch (CPU, network, status checks)
@@ -645,7 +645,7 @@ will recreate everything as code. No code commits for this phase.
     and a log? Give one example of each from this project. When would you
     use an alarm vs just looking at a dashboard?"
 
-- [ ] **Step 4.9: DESTROY EVERYTHING**
+- [x] **Step 4.9: DESTROY EVERYTHING**
   - **Objective:** Clean up all resources and understand dependency ordering.
   - **Tasks:**
     - Delete in reverse order: EC2 -> RDS -> ECR -> IGW ->
@@ -661,12 +661,12 @@ will recreate everything as code. No code commits for this phase.
 
 ### Phase 4 Completion Criteria
 
-- [ ] All resources created manually and understood
-- [ ] All resources destroyed
-- [ ] AWS console shows no active resources
-- [ ] Billing dashboard shows $0 ongoing charges
-- [ ] You can draw the full network architecture from memory
-- [ ] No code commits for this phase
+- [x] All resources created manually and understood
+- [x] All resources destroyed
+- [x] AWS console shows no active resources
+- [x] Billing dashboard shows $0 ongoing charges
+- [x] You can draw the full network architecture from memory
+- [x] No code commits for this phase
 
 ---
 
@@ -680,7 +680,7 @@ tags.
 
 ### Steps
 
-- [ ] **Step 5.1: Terraform setup and S3 backend**
+- [x] **Step 5.1: Terraform setup and S3 backend**
   - **Objective:** Initialize Terraform with remote state storage.
   - **Tasks:**
     - Install Terraform 1.15+
@@ -700,7 +700,7 @@ tags.
     specific corruption could occur in the state file?"
   - **Commit:** `infra: initialize Terraform with S3 backend and DynamoDB lock`
 
-- [ ] **Step 5.2: VPC and networking**
+- [x] **Step 5.2: VPC and networking**
   - **Objective:** Provision the network layer as code.
   - **Tasks:**
     - Create resources: `aws_vpc`, `aws_subnet` (public + private),
@@ -719,7 +719,7 @@ tags.
     `terraform apply` creates them. AWS console matches Phase 4.
   - **Commit:** `infra: add VPC, subnets, gateways, and route tables`
 
-- [ ] **Step 5.3: Security groups**
+- [x] **Step 5.3: Security groups**
   - **Objective:** Create firewall rules as code.
   - **Tasks:**
     - Create `aws_security_group` for app (HTTP 80, 8080 inbound,
@@ -732,7 +732,7 @@ tags.
     attributes, SG-to-SG rules in Terraform, `aws_vpc_security_group_ingress_rule`.
   - **Commit:** `infra: add application and database security groups`
 
-- [ ] **Step 5.4: RDS PostgreSQL**
+- [x] **Step 5.4: RDS PostgreSQL**
   - **Objective:** Provision the managed database as code.
   - **Tasks:**
     - Create `aws_db_subnet_group` for private subnets
@@ -751,7 +751,7 @@ tags.
     if you omit it?"
   - **Commit:** `infra: add RDS PostgreSQL in private subnet`
 
-- [ ] **Step 5.5: ECR repository**
+- [x] **Step 5.5: ECR repository**
   - **Objective:** Create the container registry as code.
   - **Tasks:**
     - Create `aws_ecr_repository` with image scanning on push
@@ -761,7 +761,7 @@ tags.
     scanning, why limiting image count matters (storage cost).
   - **Commit:** `infra: add ECR repository with lifecycle policy`
 
-- [ ] **Step 5.6: IAM role for EC2**
+- [x] **Step 5.6: IAM role for EC2**
   - **Objective:** Give EC2 permissions via a role, not static keys.
   - **Tasks:**
     - Create `aws_iam_role` with assume-role trust policy for
@@ -779,7 +779,7 @@ tags.
     happen if you attached the role directly without the instance profile?"
   - **Commit:** `infra: add IAM role and instance profile for EC2`
 
-- [ ] **Step 5.7: EC2 instance**
+- [x] **Step 5.7: EC2 instance**
   - **Objective:** Provision the compute layer as code.
   - **Tasks:**
     - Use `aws_ami` data source to find latest Amazon Linux 2024 AMI
@@ -797,7 +797,7 @@ tags.
     `curl localhost:8080/health` returns 200 from inside the instance.
   - **Commit:** `infra: add EC2 instance with Docker bootstrap`
 
-- [ ] **Step 5.8: CloudWatch monitoring**
+- [x] **Step 5.8: CloudWatch monitoring**
   - **Objective:** Add centralized logging and alerting as code.
   - **Tasks:**
     - Create `aws_cloudwatch_log_group` with 14-day retention
@@ -810,7 +810,7 @@ tags.
     log retention policies.
   - **Commit:** `infra: add CloudWatch log groups and metric alarms`
 
-- [ ] **Step 5.9: Outputs and full validation**
+- [x] **Step 5.9: Outputs and full validation**
   - **Objective:** Expose important values and validate the entire stack.
   - **Tasks:**
     - Create `terraform/outputs.tf`: EC2 public IP, RDS endpoint,
@@ -829,15 +829,15 @@ tags.
 
 ### Phase 5 Completion Criteria
 
-- [ ] `terraform init && terraform plan && terraform apply` creates the
+- [x] `terraform init && terraform plan && terraform apply` creates the
     entire infrastructure
-- [ ] `curl http://<ip>:8080/health` returns 200
-- [ ] State is stored in S3 with DynamoDB locking
-- [ ] All resources have `Name`, `Project`, `Environment` tags
-- [ ] No hardcoded secrets anywhere in `.tf` files
-- [ ] `terraform validate` and `terraform fmt -check` pass
-- [ ] `terraform plan` shows zero drift after apply
-- [ ] All committed on branch `phase-5-terraform`, merged to main
+- [x] `curl http://<ip>:8080/health` returns 200
+- [x] State is stored in S3 with DynamoDB locking
+- [x] All resources have `Name`, `Project`, `Environment` tags
+- [x] No hardcoded secrets anywhere in `.tf` files
+- [x] `terraform validate` and `terraform fmt -check` pass
+- [x] `terraform plan` shows zero drift after apply
+- [x] All committed on branch `phase-5-terraform`, merged to main
 
 ---
 

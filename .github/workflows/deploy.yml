@@ -1,0 +1,73 @@
+name: CD Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: production_deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+          cache: true
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, Tag, and Push Image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: aws-cloud-platform
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+
+      - name: OpenTofu Init & Apply
+        run: |
+          tofu -chdir=terraform init
+          tofu -chdir=terraform apply -auto-approve
+
+      - name: Health Check Verification Gate
+        run: |
+          EC2_IP=$(tofu -chdir=terraform output -raw ec2_public_ip)
+          echo "Target EC2 Public IP: $EC2_IP"
+          
+          # Retry loop for HTTP health check
+          for i in {1..12}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://$EC2_IP:8080/health || true)
+            if [ "$STATUS" = "200" ]; then
+              echo "Health check verification passed! Response: HTTP 200 OK"
+              exit 0
+            fi
+            echo "Waiting for application startup on EC2 (attempt $i/12)..."
+            sleep 10
+          done
+          
+          echo "Health check failed after 12 attempts"
+          exit 1
