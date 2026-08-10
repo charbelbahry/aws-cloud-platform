@@ -31,6 +31,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+
+      - name: OpenTofu Init & Apply
+        run: |
+          tofu -chdir=terraform init
+          tofu -chdir=terraform apply -auto-approve
+
       - name: Log in to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -44,14 +52,6 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
-      - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@v1
-
-      - name: OpenTofu Init & Apply
-        run: |
-          tofu -chdir=terraform init
-          tofu -chdir=terraform apply -auto-approve
 
       - name: Health Check Verification Gate
         run: |
