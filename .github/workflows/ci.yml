@@ -2,11 +2,11 @@ name: CI Pipeline
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   test:
@@ -59,7 +59,7 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v6
         with:
-          version: v1.60.1
+          version: latest
 
   build:
     name: Docker Build
